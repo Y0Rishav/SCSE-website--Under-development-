@@ -1,0 +1,219 @@
+@import url('https://fonts.googleapis.com/css2?family=Share+Tech+Mono&display=swap');
+
+body {
+	height: 100vh;
+	overflow: hidden;
+	background-color: #000;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+}
+
+h1 {
+	color: green;
+	font-family: 'Share Tech Mono', 'Cascadia Code', Menlo, Monaco, 'Courier New', monospace;
+	font-size: 6rem;
+	filter: drop-shadow(0px 0px 5px currentColor);
+	
+	&::after {
+		content: '';
+		display: inline-block;
+		width: .2em;
+		height: .7em;
+		background-color: currentColor;
+		margin-left: .1em;
+		animation: blink 1s linear infinite forwards;
+		vertical-align: baseline;
+	}
+}
+
+.grid-container {
+	--grid: 10rem;
+	width: 100%;
+	height: 100%;
+	position: absolute;
+	top: 0;
+	left: 0;
+	transform-style: preserve-3d;
+	perspective: 100rem;
+	animation: rotate 100s linear infinite forwards;
+	
+	.plane {
+		--dir: 1;
+		width: 300%;
+		height: 150%;
+		min-height: 70rem;
+		position: absolute;
+		bottom: 0;
+		transform-style: preserve-3d;
+		transform-origin: bottom center;
+		transform: translateX(-50%) rotateX(85deg);
+		
+		&:last-child {
+			--dir: -1;
+			top: 0;
+			transform-origin: top center;
+			transform: translateX(-50%) rotateX(-85deg);
+			
+			& > * {
+				&::after {
+					background-image: linear-gradient(to top, rgba(0, 0, 0, 255) var(--grid), rgba(0, 0, 0, 0));
+				}
+			}
+		}
+		
+		& > * {
+			transform-style: preserve-3d;
+			height: 100%;
+			width: 100%;
+			position: absolute;
+			
+			&::before, &::after {
+				content: '';
+				display: block;
+				position: absolute;
+				width: 100%;
+				height: 100%;
+				top: 0;
+				left: 0;
+			}
+
+			&::before {
+				background-image: repeating-linear-gradient(to left, green, green 4px, transparent 4px, transparent var(--grid)), 
+					repeating-linear-gradient(to bottom, green, green 4px, transparent 4px, transparent var(--grid));
+				animation: move 1s linear infinite forwards;
+			}
+
+			&::after {
+				background-image: linear-gradient(to bottom, rgba(0, 0, 0, 255) var(--grid), rgba(0, 0, 0, 0));
+				z-index: 1;
+				transform: translateZ(1px);
+			}
+		}
+		
+		.glow {
+			filter: blur(1rem);
+			z-index: 1;
+			mix-blend-mode: plus-lighter;
+		}
+	}
+}
+
+@keyframes move {
+	from {
+		transform: translateY(0px);
+	}
+	
+	to {
+		transform: translateY(calc(var(--grid) * var(--dir)));
+	}
+}
+
+@keyframes blink {
+	0% {
+		visibility: visible;
+	}
+	
+	50% {
+		visibility: visible;
+	}
+	
+	51% {
+		visibility: hidden;
+	}
+	
+	100% {
+		visibility: hidden;
+	}
+}
+
+
+.wrap {
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.button {
+  min-width: px;
+  min-height: 60px;
+  display: inline-flex;
+  font-family: 'Nunito', sans-serif;
+  font-size: 22px;
+  align-items: center;
+  justify-content: center;
+  text-transform: uppercase;
+  text-align: center;
+  letter-spacing: 1.3px;
+  font-weight: 700;
+  color: #313133;
+  background: #4FD1C5;
+background: linear-gradient(90deg, rgba(129,230,217,1) 0%, rgba(79,209,197,1) 100%);
+  border: none;
+  border-radius: 1000px;
+  box-shadow: 1px 1px 24px rgba(79,209,197,.64);
+  transition: all 0.3s ease-in-out 0s;
+  cursor: pointer;
+  outline: none;
+  position: relative;
+  padding: 10px;
+  }
+
+.button::before {
+content: '';
+  border-radius: 1000px;
+  min-width: calc(300px + 12px);
+  min-height: calc(60px + 12px);
+  border: 6px solid #00FFCB;
+  box-shadow: 0 0 60px rgba(0,255,203,.64);
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  opacity: 0;
+  transition: all .3s ease-in-out 0s;
+}
+
+.button:hover, 
+.button:focus {
+  color: #313133;
+  transform: translateY(-6px);
+}
+
+.button:hover::before, 
+.button:focus::before {
+  opacity: 1;
+}
+
+.button::after {
+  content: '';
+  width: 30px; height: 30px;
+  border-radius: 100%;
+  border: 6px solid #00FFCB;
+  position: absolute;
+  z-index: -1;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  animation: ring 1.5s infinite;
+}
+
+.button:hover::after, 
+.button:focus::after {
+  animation: none;
+  display: none;
+}
+
+@keyframes ring {
+  0% {
+    width: 30px;
+    height: 30px;
+    opacity: 1;
+  }
+  100% {
+    width: 200px;
+    height: 200px;
+    opacity: 0;
+  }
+}
